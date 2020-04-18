@@ -8,7 +8,7 @@ export const FETCH_IMAGES_SUCCESS = 'FETCH_IMAGES_SUCCESS';
 export const addImageSuccess = () => ({type: ADD_IMAGE_SUCCESS});
 export const deleteImageSuccess = () => ({type: DELETE_IMAGE_SUCCESS});
 export const fetchImageSuccess = image => ({type: FETCH_IMAGE_SUCCESS, image});
-export const fetchImagesSuccess = images => ({FETCH_IMAGES_SUCCESS, images});
+export const fetchImagesSuccess = images => ({type: FETCH_IMAGES_SUCCESS, images});
 
 
 export const fetchImages = userId => {
