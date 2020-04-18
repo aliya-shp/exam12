@@ -24,7 +24,7 @@ const run = async () => {
     token: nanoid(),
   });
 
-  let images = Image.create(
+  await Image.create(
     {
       title: 'Mountain Fuji',
       image: 'uploads/fixtures/mountain_fuji.jpg',
