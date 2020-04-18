@@ -9,8 +9,17 @@ const Image = require('../models/Image');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const images = await Image.find().populate('user');
-  res.send(images);
+  try {
+    if (req.query.user) {
+      const images = await Image.find({user: req.query.user}).populate('user');
+      return res.send(images);
+    } else {
+      const images = await Image.find().populate('user');
+      return res.send(images);
+    }
+  } catch (error) {
+    return res.status(500).send(error);
+  }
 });
 
 router.get('/:id', async (req, res) => {
@@ -29,13 +38,16 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', [auth, upload.single('image')], async (req, res) => {
   try {
-    const imageData = {
-      title: req.body.title,
-    };
+    const imageData = req.body;
 
     if (req.file) {
       imageData.image = req.file.filename;
+    } else if (!req.file || !req.body.title) {
+      return res.status(400).send({message: 'Please enter either image or title'})
     }
+
+    imageData.user = req.user;
+    imageData.title = req.body.title;
 
     const image = new Image(imageData);
 
